@@ -7,6 +7,7 @@ for (let key in modulesFiles) {
 	const nameList = module.default.__file.split("/");
 	let name = nameList[nameList.length - 1].split('.')[0];
 	let file = module.default;
+	// import.meta.globEager(`../views/*/views/*/index.vue`)
 	routes.push({
 		path: `/${name}`,
 		name: name,
