@@ -12,6 +12,7 @@
     "@here/harp-mapview": "^0.28.0",
     "@here/harp-omv-datasource": "^0.28.0",
     "@here/harp-vectortile-datasource": "^0.28.0",
+    "@here/harp-webtile-datasource": "^0.28.0",
     "@here/harp.gl": "^0.28.0",
     "bootstrap": "^5.1.3",
     "element-plus": "^2.0.1",
@@ -21,6 +22,7 @@
     "vue": "^3.2.25"
   },
   "devDependencies": {
+    "@types/mapbox-gl": "^2.6.3",
     "@types/node": "^17.0.21",
     "@types/three": "^0.138.0",
     "@vitejs/plugin-vue": "^2.2.0",

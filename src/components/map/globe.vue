@@ -2,13 +2,21 @@
 import { onMounted, provide, onBeforeUnmount, PropType } from "vue";
 import { Defer, getDefer } from "../../utils/promise";
 // import harp from "harp";
-import { MapView } from "@here/harp-mapview";
+import {
+	MapView,
+	MapViewAtmosphere,
+	AtmosphereLightMode,
+} from "@here/harp-mapview";
 import { sphereProjection, mercatorProjection } from "@here/harp-geoutils";
 import { MapControls, MapControlsUI } from "@here/harp-map-controls";
-let mapPromise:Defer<MapView> = getDefer();
-let map:MapView
+let mapPromise: Defer<MapView> = getDefer();
+let map: MapView;
 const props = defineProps({
 	mapControl: {
+		type: Boolean,
+		default: false,
+	},
+	atmosphere: {
 		type: Boolean,
 		default: false,
 	},
@@ -26,7 +34,6 @@ onMounted(() => {
 	map = new MapView({
 		canvas,
 		projection: projection,
-			
 	});
 	map.resize(window.innerWidth, window.innerHeight);
 	window.onresize = () => map.resize(window.innerWidth, window.innerHeight);
@@ -35,6 +42,18 @@ onMounted(() => {
 	if (props.mapControl) {
 		const ui = new MapControlsUI(mapControls);
 		canvas.parentElement?.appendChild(ui.domElement);
+	}
+	if (props.atmosphere) {
+		const { camera, projection, mapAnchors } = map;
+		const updateCallback = () => map.update();
+		const atmosphere = new MapViewAtmosphere(
+			mapAnchors,
+			camera,
+			projection,
+			map.renderer.capabilities,
+			updateCallback
+		);
+		atmosphere.lightMode = AtmosphereLightMode.LightDynamic;
 	}
 });
 onBeforeUnmount(() => {
