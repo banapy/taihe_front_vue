@@ -1,7 +1,8 @@
 <script setup lang="ts">
-      
+import MyHeader from "@/components/header/index.vue";
 </script>
 <template>
-      home
+	<MyHeader></MyHeader>
+	home
 </template>
 <style></style>

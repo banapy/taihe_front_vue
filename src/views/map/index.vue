@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import MyHeader from "@/components/header/index.vue";
+
 const list = ref<
 	{ title: string; description: string; link: string; img: string }[]
 >([
@@ -12,6 +14,7 @@ const list = ref<
 ]);
 </script>
 <template>
+	<MyHeader></MyHeader>
 	<div class="d-flex flex-row justify-conten-start">
 		<div class="card w-25" v-for="it in list">
 			<h3 class="card-header">{{ it.title }}</h3>
