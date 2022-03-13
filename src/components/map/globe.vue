@@ -8,7 +8,6 @@ import { MapControls, MapControlsUI } from "@here/harp-map-controls";
 let mapPromise:Defer<MapView> = getDefer();
 let map:MapView
 const props = defineProps({
-	apiKey: String,
 	mapControl: {
 		type: Boolean,
 		default: false,
@@ -27,8 +26,7 @@ onMounted(() => {
 	map = new MapView({
 		canvas,
 		projection: projection,
-		theme:
-			"https://unpkg.com/@here/harp-map-theme@latest/resources/berlin_tilezen_night_reduced.json",
+			
 	});
 	map.resize(window.innerWidth, window.innerHeight);
 	window.onresize = () => map.resize(window.innerWidth, window.innerHeight);
