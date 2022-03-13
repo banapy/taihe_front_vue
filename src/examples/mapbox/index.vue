@@ -6,22 +6,9 @@ import {
 	VectorTileDataSource,
 	APIFormat,
 } from "@here/harp-vectortile-datasource";
-import { OmvDataSource } from "@here/harp-omv-datasource";
-import { apikey } from "@/components/map/util";
 import mapbox2harp from "@/components/map/mapbox2harp";
-import { mapstyle } from "@/components/map/mapbox2harp/style";
+import { mapstyle } from "./style";
 const onLoaded = (map: MapView) => {
-	console.log("loaded map", map);
-	// map.lookAt({
-	// 	target: new GeoCoordinates(40.70398928, -74.01319808),
-	// 	zoomLevel: 5,
-	// 	tilt: 40,
-	// });
-	map.setTheme("./resources/berlin_tilezen_base_globe.json");
-	const vectorTileDataSource = new VectorTileDataSource({
-		authenticationCode: apikey,
-	});
-	map.addDataSource(vectorTileDataSource);
 	const theme = {
 		styles: {
 			osm: mapbox2harp(mapstyle as mapboxgl.Style),
