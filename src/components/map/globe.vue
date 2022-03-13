@@ -1,37 +1,46 @@
 <script setup lang="ts">
-import { onMounted, provide } from "vue";
-import { getDefer } from "../../utils/promise";
-import harp from 'harp'
-let mapPromise = getDefer();
-let map;
-const apikey = "J0IJdYzKDYS3nHVDDEWETIqK3nAcxqW42vz7xeSq61M";
-
+import { onMounted, provide, onBeforeUnmount, PropType } from "vue";
+import { Defer, getDefer } from "../../utils/promise";
+// import harp from "harp";
+import { MapView } from "@here/harp-mapview";
+import { sphereProjection, mercatorProjection } from "@here/harp-geoutils";
+import { MapControls, MapControlsUI } from "@here/harp-map-controls";
+let mapPromise:Defer<MapView> = getDefer();
+let map:MapView
+const props = defineProps({
+	apiKey: String,
+	mapControl: {
+		type: Boolean,
+		default: false,
+	},
+	projection: {
+		type: String as PropType<"2d" | "3d">,
+		default: "3d",
+	},
+});
+const emit = defineEmits(["loaded"]);
 provide("mapPromise", mapPromise);
 onMounted(() => {
-	const canvas = document.getElementById("globe") as HTMLCanvasElement
-	const mapView = new harp.MapView({
+	let projection =
+		props.projection === "3d" ? sphereProjection : mercatorProjection;
+	const canvas = document.getElementById("globe") as HTMLCanvasElement;
+	map = new MapView({
 		canvas,
+		projection: projection,
 		theme:
 			"https://unpkg.com/@here/harp-map-theme@latest/resources/berlin_tilezen_night_reduced.json",
 	});
-
-	// center the camera to New York
-	mapView.lookAt({
-		target: new harp.GeoCoordinates(40.70398928, -74.01319808),
-		zoomLevel: 17,
-		tilt: 40,
-	});
-
-	const mapControls = new harp.MapControls(mapView);
-	const ui = new harp.MapControlsUI(mapControls);
-	canvas.parentElement.appendChild(ui.domElement);
-	mapView.resize(window.innerWidth, window.innerHeight);
-	window.onresize = () => mapView.resize(window.innerWidth, window.innerHeight);
-
-	const vectorTileDataSource = new harp.VectorTileDataSource({
-		authenticationCode: apikey
-	});
-	mapView.addDataSource(vectorTileDataSource);
+	map.resize(window.innerWidth, window.innerHeight);
+	window.onresize = () => map.resize(window.innerWidth, window.innerHeight);
+	emit("loaded", map);
+	const mapControls = new MapControls(map);
+	if (props.mapControl) {
+		const ui = new MapControlsUI(mapControls);
+		canvas.parentElement?.appendChild(ui.domElement);
+	}
+});
+onBeforeUnmount(() => {
+	map && map.dispose();
 });
 </script>
 <template>

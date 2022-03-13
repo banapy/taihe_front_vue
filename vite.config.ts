@@ -10,9 +10,10 @@ export default defineConfig({
   plugins: [vue(), Pages({
     dirs: [
       { dir: "src/views", baseRoute: "" },
-      { dir: "src/views/map/views", baseRoute: "map" },
+      { dir: "src/examples", baseRoute: "map" },
     ]
-  }), viteExternalsPlugin({
+  }), 
+  viteExternalsPlugin({
     harp: "harp",
   })],
   resolve: {
