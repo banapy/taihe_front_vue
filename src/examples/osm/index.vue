@@ -4,6 +4,7 @@ import { MapView } from "@here/harp-mapview";
 import {GeoCoordinates,} from '@here/harp-geoutils'
 import {VectorTileDataSource,APIFormat} from '@here/harp-vectortile-datasource'
 import {OmvDataSource} from '@here/harp-omv-datasource'
+import {apikey} from '@/utils/map'
 const onLoaded = (map:MapView) => {
 	console.log("loaded map", map);
 	map.lookAt({
@@ -23,9 +24,8 @@ const onLoaded = (map:MapView) => {
 	// map.addDataSource(dataSource);
 
 };
-const apikey = "J0IJdYzKDYS3nHVDDEWETIqK3nAcxqW42vz7xeSq61M";
 </script>
 <template>
-	<Globe @loaded="onLoaded" :apikey="apikey" mapControl></Globe>
+	<Globe @loaded="onLoaded" :apikey="apiKey" mapControl></Globe>
 </template>
 <style></style>

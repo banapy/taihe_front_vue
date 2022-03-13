@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import Pages from "vite-plugin-pages";
 import * as path from 'path';
 import { viteExternalsPlugin } from 'vite-plugin-externals'
-
+const resolve = (dir: string) => path.join(__dirname, dir)
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), Pages({
@@ -18,7 +18,7 @@ export default defineConfig({
   })],
   resolve: {
     alias: {
-      "@": path.resolve("src"),
+      "@": resolve("src"),
       vue: "vue/dist/vue.esm-bundler.js",
     },
   },
