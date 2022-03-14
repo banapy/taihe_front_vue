@@ -2,13 +2,28 @@
 import Globe from "@/components/map/globe.vue";
 import { MapView } from "@here/harp-mapview";
 import { GeoCoordinates } from "@here/harp-geoutils";
+import { WebTileDataSource } from "@here/harp-webtile-datasource";
+import { WMTSProvider } from "@/components/map/WMTSProvider";
 const onLoaded = (map: MapView) => {
 	map.lookAt({
-		target: new GeoCoordinates(40.70398928, -74.01319808),
+		target: new GeoCoordinates(39.9, 116.4),
 		zoomLevel: 17,
 		tilt: 40,
 	});
-	
+	const dataSource = new WebTileDataSource({
+		dataProvider: new WMTSProvider({
+			baseUrl: "http://t0.tianditu.gov.cn/vec_w/wmts",
+			parameter: {
+				format: "tiles",
+				layer: "vec",
+				maximumLevel: "1",
+				minimumLevel: "18",
+				service: "wmts",
+				tk: "5ac36718ffda736958317e215b8664a7",
+			},
+		}),
+	});
+	map.addDataSource(dataSource);
 };
 </script>
 <template>
