@@ -40,7 +40,10 @@ onMounted(() => {
 	emit("loaded", map);
 	const mapControls = new MapControls(map);
 	if (props.mapControl) {
-		const ui = new MapControlsUI(mapControls);
+		const ui = new MapControlsUI(mapControls, {
+			zoomLevel: "input",
+			projectionSwitch: true,
+		});
 		canvas.parentElement?.appendChild(ui.domElement);
 	}
 	if (props.atmosphere) {
